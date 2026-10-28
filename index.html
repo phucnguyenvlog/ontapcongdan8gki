@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn Tập Giáo Dục Công Dân 8 - CD-GK18</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        .correct-bg { background-color: #d1fae5; border-color: #10b981; color: #065f46; }
+        .wrong-bg { background-color: #fee2e2; border-color: #ef4444; color: #991b1b; }
+        .option-hover:hover:not(:disabled) { background-color: #e5e7eb; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        const originalMcQuestions = [
+            {
+                id: 1,
+                question: "Câu 1. Trong hoạt động tìm hiểu về truyền thống hiếu học và tôn sư trọng đạo của dân tộc Việt Nam, hành vi nào sau đây thể hiện lòng tự hào về truyền thống dân tộc?",
+                options: [
+                    "A. Tìm hiểu những tấm gương hiếu học của các thế hệ đi trước, từ đó tự giác học tập và rèn luyện để hoàn thiện bản thân.",
+                    "B. Kính trọng thầy cô, biết ơn những người dạy dỗ mình và tích cực tiếp nối truyền thống hiếu học bằng những việc làm phù hợp.",
+                    "C. Cho rằng truyền thống hiếu học chỉ có ý nghĩa đối với những người đạt thành tích học tập xuất sắc, còn học sinh học lực trung bình không cần quan tâm.",
+                    "D. Chủ động tìm hiểu, trân trọng truyền thống hiếu học và tôn sư trọng đạo, đồng thời thể hiện niềm tự hào bằng việc làm cụ thể trong học tập và ứng xử hằng ngày."
+                ],
+                answer: 3
+            },
+            {
+                id: 2,
+                question: "Câu 2. Trong một chương trình giao lưu văn hóa, học sinh được yêu cầu giới thiệu những truyền thống tốt đẹp của dân tộc Việt Nam với bạn bè quốc tế. Cách ứng xử nào sau đây thể hiện phù hợp nhất lòng tự hào về truyền thống dân tộc?",
+                options: [
+                    "A. Chủ động tìm hiểu, giới thiệu chính xác những giá trị truyền thống tốt đẹp của Việt Nam, đồng thời có hành động thiết thực góp phần giữ gìn, phát huy bản sắc dân tộc và thể hiện thái độ tôn trọng các nền văn hóa khác.",
+                    "B. Tìm hiểu những nét đặc sắc trong phong tục, tập quán và các giá trị văn hóa truyền thống của Việt Nam để giới thiệu với bạn bè.",
+                    "C. Trân trọng các giá trị truyền thống của dân tộc, đồng thời có ý thức bảo vệ di sản văn hóa và thực hiện nếp sống văn minh tại địa phương.",
+                    "D. Khẳng định truyền thống của dân tộc mình luôn tốt đẹp hơn truyền thống của các dân tộc khác và không cần tìm hiểu những nền văn hóa khác."
+                ],
+                answer: 0
+            },
+            {
+                id: 3,
+                question: "Câu 3. Hành vi nào sau đây thể hiện lòng tự hào về truyền thống dân tộc Việt Nam?",
+                options: [
+                    "A. Tích cực tìm hiểu lịch sử dân tộc, trân trọng những chiến công dựng nước và giữ nước của các thế hệ cha ông.",
+                    "B. Chủ động tham gia các hoạt động đền ơn đáp nghĩa, góp phần giữ gìn và phát huy những truyền thống tốt đẹp của dân tộc.",
+                    "C. Chỉ quan tâm đến những truyền thống dân tộc được nhiều người biết đến, còn những phong tục và giá trị truyền thống khác thì không cần tìm hiểu.",
+                    "D. Tìm hiểu, trân trọng các giá trị truyền thống tốt đẹp, đồng thời tích cực thực hiện những việc làm thiết thực để giữ gìn và phát huy các giá trị ấy."
+                ],
+                answer: 3
+            },
+            {
+                id: 4,
+                question: "Câu 4. Trong một buổi sinh hoạt lớp về truyền thống dân tộc Việt Nam, một số bạn cho rằng học sinh chỉ cần tự hào về những thành tựu nổi bật của đất nước, không nhất thiết phải thể hiện điều đó qua hành động hằng ngày. Nhận định nào sau đây phù hợp nhất với biểu hiện của lòng tự hào về truyền thống dân tộc?",
+                options: [
+                    "A. Tự giác tìm hiểu những giá trị văn hóa, lịch sử và truyền thống tốt đẹp của dân tộc để nâng cao hiểu biết của bản thân.",
+                    "B. Chủ động tìm hiểu, trân trọng các truyền thống tốt đẹp và biến niềm tự hào thành hành động cụ thể, phù hợp với khả năng để giữ gìn, phát huy truyền thống dân tộc.",
+                    "C. Tích cực tham gia các hoạt động phù hợp với lứa tuổi nhằm bảo tồn di sản văn hóa, giúp đỡ cộng đồng và lan tỏa những giá trị tốt đẹp.",
+                    "D. Cho rằng chỉ những người trực tiếp tham gia các hoạt động lịch sử, văn hóa quy mô lớn mới có thể thể hiện lòng tự hào về truyền thống dân tộc."
+                ],
+                answer: 1
+            },
+            {
+                id: 5,
+                question: "Câu 5. Để góp phần giữ gìn và phát huy truyền thống tốt đẹp của dân tộc Việt Nam, học sinh nên lựa chọn những việc làm nào sau đây?",
+                options: [
+                    "A. Chủ động tìm hiểu lịch sử, phong tục tốt đẹp của dân tộc và giới thiệu những giá trị phù hợp đến bạn bè.",
+                    "B. Tích cực tham gia hoạt động đền ơn đáp nghĩa, bảo vệ di tích lịch sử và thực hiện các hoạt động nhân ái phù hợp với khả năng.",
+                    "C. Kết hợp tìm hiểu, trân trọng các giá trị truyền thống với những hành động thiết thực nhằm bảo tồn, lan tỏa và phát huy truyền thống tốt đẹp của dân tộc.",
+                    "D. Chỉ tham gia các hoạt động truyền thống khi được giáo viên yêu cầu hoặc khi hoạt động đó mang lại thành tích cho bản thân."
+                ],
+                answer: 2
+            },
+            {
+                id: 6,
+                question: "Câu 6. Nhân dịp kỷ niệm Ngày thành lập Quân đội nhân dân Việt Nam, lớp 8 tổ chức hoạt động tìm hiểu truyền thống yêu nước và biết ơn những người có công với đất nước. Việc làm nào sau đây phù hợp nhất để học sinh góp phần giữ gìn, phát huy truyền thống dân tộc?",
+                options: [
+                    "A. Tích cực tìm hiểu những tấm gương yêu nước, biết ơn các thế hệ đi trước và chia sẻ kiến thức chính xác với các bạn.",
+                    "B. Chủ động đề xuất, tham gia hoạt động thăm hỏi gia đình có công với cách mạng hoặc chăm sóc di tích lịch sử phù hợp với điều kiện của lớp.",
+                    "C. Chỉ tập trung sưu tầm hình ảnh, khẩu hiệu để trang trí lớp học, không cần tìm hiểu ý nghĩa lịch sử hoặc tham gia hoạt động thực tế.",
+                    "D. Tự giác tìm hiểu truyền thống yêu nước, thể hiện lòng biết ơn bằng việc làm phù hợp và vận động bạn bè cùng tham gia các hoạt động thiết thực nhằm lan tỏa những giá trị truyền thống tốt đẹp."
+                ],
+                answer: 3
+            },
+            {
+                id: 7,
+                question: "Câu 7. Sự đa dạng của các dân tộc và các nền văn hóa trên thế giới được thể hiện qua những phương diện nào sau đây?",
+                options: [
+                    "A. Các dân tộc có sự khác biệt về ngôn ngữ, chữ viết, trang phục và phong tục, tập quán.",
+                    "B. Các dân tộc có những nét riêng về tín ngưỡng, lễ hội, nghệ thuật và phương thức sinh hoạt.",
+                    "C. Mỗi dân tộc đều có những đặc trưng riêng về văn hóa, được hình thành trong quá trình lịch sử và giao lưu với các cộng đồng khác.",
+                    "D. Những dân tộc có nền kinh tế phát triển thường sở hữu nền văn hóa có giá trị cao hơn các dân tộc khác."
+                ],
+                answer: 2
+            },
+            {
+                id: 8,
+                question: "Câu 8. Nhận định nào sau đây phản ánh đúng sự đa dạng của các dân tộc và các nền văn hóa trên thế giới?",
+                options: [
+                    "A. Sự khác biệt về ngôn ngữ, trang phục và phong tục giữa các dân tộc là biểu hiện của sự đa dạng văn hóa.",
+                    "B. Sự đa dạng văn hóa được thể hiện ở những nét đặc trưng khác nhau về ngôn ngữ, phong tục, tín ngưỡng, nghệ thuật và lối sống của các cộng đồng dân tộc.",
+                    "C. Các dân tộc có thể có những hình thức tổ chức lễ hội, nghệ thuật và ẩm thực khác nhau, tạo nên bản sắc văn hóa riêng.",
+                    "D. Một dân tộc muốn phát triển thì cần thay thế những phong tục riêng bằng phong tục phổ biến của các dân tộc có ảnh hưởng lớn trên thế giới."
+                ],
+                answer: 1
+            },
+            {
+                id: 9,
+                question: "Câu 9. Nhận định nào sau đây phản ánh đúng các biểu hiện của sự đa dạng giữa các dân tộc và nền văn hóa trên thế giới?",
+                options: [
+                    "A. Các dân tộc có thể khác nhau về ngôn ngữ, chữ viết, trang phục và phong tục, tập quán.",
+                    "B. Sự đa dạng văn hóa được thể hiện qua những đặc điểm riêng về ngôn ngữ, phong tục, tín ngưỡng, nghệ thuật và lối sống của các dân tộc.",
+                    "C. Sự khác biệt về tín ngưỡng, lễ hội, nghệ thuật, ẩm thực và lối sống góp phần tạo nên nét đặc trưng của mỗi nền văn hóa.",
+                    "D. Những dân tộc có điều kiện kinh tế phát triển thường có nền văn hóa tiến bộ hơn và đáng được coi trọng hơn các dân tộc khác."
+                ],
+                answer: 1
+            },
+            {
+                id: 10,
+                question: "Câu 10. Trong giờ học Giáo dục công dân, một học sinh cho rằng: “Các dân tộc trên thế giới đều có những nét văn hóa riêng, nhưng sự khác biệt chủ yếu chỉ thể hiện ở các lễ hội truyền thống”. Nhận định nào sau đây chính xác nhất về sự đa dạng của các dân tộc và nền văn hóa?",
+                options: [
+                    "A. Sự khác biệt về ngôn ngữ và chữ viết là một trong những biểu hiện của sự đa dạng giữa các dân tộc.",
+                    "B. Những khác biệt về kiến trúc, nghệ thuật, tín ngưỡng, phong tục và cách tổ chức đời sống cũng phản ánh sự đa dạng văn hóa.",
+                    "C. Các dân tộc muốn giao lưu thuận lợi cần từ bỏ những đặc điểm văn hóa riêng để thống nhất phong tục và lối sống.",
+                    "D. Sự đa dạng của các dân tộc và nền văn hóa được thể hiện trên nhiều phương diện của đời sống, từ ngôn ngữ, phong tục, tín ngưỡng đến nghệ thuật, kiến trúc và lối sống."
+                ],
+                answer: 3
+            },
+            {
+                id: 11,
+                question: "Câu 11. Việc tôn trọng sự đa dạng của các dân tộc và các nền văn hóa trên thế giới có ý nghĩa như thế nào?",
+                options: [
+                    "A. Góp phần tăng cường sự hiểu biết, xây dựng tình hữu nghị và thúc đẩy hợp tác giữa các dân tộc.",
+                    "B. Giúp mỗi dân tộc có cơ hội giao lưu, học hỏi những giá trị văn hóa tiến bộ của các dân tộc khác.",
+                    "C. Góp phần củng cố sự bình đẳng, đoàn kết và thúc đẩy sự phát triển bền vững trong quan hệ giữa các dân tộc.",
+                    "D. Tạo điều kiện để các dân tộc dần từ bỏ những nét văn hóa riêng, hướng đến một nền văn hóa thống nhất trên toàn thế giới."
+                ],
+                answer: 2
+            },
+            {
+                id: 12,
+                question: "Câu 12. Tại một buổi giao lưu quốc tế, một số học sinh cho rằng chỉ nên tiếp nhận văn hóa của những quốc gia phát triển, còn văn hóa của các dân tộc ít người hoặc những quốc gia còn khó khăn thì không có nhiều giá trị để học hỏi. Nhận định nào sau đây giải thích đúng nhất ý nghĩa của việc tôn trọng sự đa dạng văn hóa?",
+                options: [
+                    "A. Tôn trọng sự đa dạng văn hóa có nghĩa là phải chấp nhận và làm theo tất cả phong tục, tập quán của các dân tộc, kể cả những tập quán lạc hậu.",
+                    "B. Tôn trọng sự đa dạng văn hóa giúp các dân tộc tránh hoàn toàn những bất đồng trong quá trình giao lưu và hợp tác.",
+                    "C. Việc tôn trọng văn hóa của các dân tộc góp phần hạn chế định kiến, phân biệt đối xử và tăng cường sự bình đẳng giữa con người với con người.",
+                    "D. Tôn trọng sự đa dạng văn hóa khẳng định mỗi dân tộc có bản sắc riêng đáng được tôn trọng, đồng thời tạo nền tảng cho giao lưu, học hỏi và hợp tác bình đẳng."
+                ],
+                answer: 3
+            },
+            {
+                id: 13,
+                question: "Câu 13. Để thể hiện lòng tự hào và phát huy truyền thống dân tộc Việt Nam trong thời kỳ hội nhập quốc tế, học sinh cần làm gì?",
+                options: [
+                    "A. Học tập chăm chỉ, rèn luyện đạo đức để góp phần xây dựng đất nước.",
+                    "B. Tìm hiểu, giới thiệu với bạn bè quốc tế về lịch sử, văn hóa Việt Nam.",
+                    "C. Coi thường những yếu tố văn hóa nước ngoài.",
+                    "D. Giữ gìn, phát huy các giá trị truyền thống tốt đẹp của dân tộc trong cuộc sống hiện đại."
+                ],
+                answer: 3
+            },
+            {
+                id: 14,
+                question: "Câu 14. Tôn trọng sự đa dạng của các dân tộc giúp chúng ta:",
+                options: [
+                    "A. Học hỏi, tiếp thu những giá trị văn hóa phong phú.",
+                    "B. Góp phần xây dựng xã hội hòa bình, tiến bộ.",
+                    "C. Tăng cường đoàn kết, hiểu biết và hợp tác giữa các dân tộc.",
+                    "D. Làm mất đi bản sắc riêng của từng dân tộc."
+                ],
+                answer: 2
+            },
+            {
+                id: 15,
+                question: "Câu 15. “Nhằm kịp thời động viên, hỗ trợ, chia sẻ những khó khăn trong công tác phòng, chống dịch Covid-19, Liên đoàn Lao động huyện đã trao tặng quà cho đội ngũ bác sĩ, cán bộ, nhân viên y tế đang làm nhiệm vụ tuyến đầu phòng chống dịch”. Câu chuyện trên thể hiện truyền thống gì của dân tộc ta?",
+                options: [
+                    "A. Tôn sư trọng đạo",
+                    "B. Tương thân tương ái",
+                    "C. Hiếu thảo",
+                    "D. Uống nước nhớ nguồn"
+                ],
+                answer: 1
+            },
+            {
+                id: 16,
+                question: "Câu 16. “Cầu thủ Duy Mạnh cắm cờ Tổ quốc trên tuyết tại sân vận động Thường Châu và cúi chào cổ động viên Việt Nam sau trận đấu”. Biểu hiện của lòng tự hào về những truyền thống dân tộc được thể hiện qua hành động nào?",
+                options: [
+                    "A. Tự hào dân tộc, tự hào về nguồn cội",
+                    "B. Chăm chỉ, sáng tạo",
+                    "C. Cần cù lao động",
+                    "D. Học tập và nghiên cứu tốt"
+                ],
+                answer: 0
+            },
+            {
+                id: 17,
+                question: "Câu 17. Tự hào về truyền thống dân tộc Việt Nam giúp chúng ta:",
+                options: [
+                    "A. Biết tôn trọng các dân tộc khác trên thế giới.",
+                    "B. Cố gắng học tập, rèn luyện để góp phần xây dựng đất nước.",
+                    "C. Sống hời hợt, chỉ biết tự hào mà không hành động.",
+                    "D. Có ý thức giữ gìn, phát huy giá trị tốt đẹp của dân tộc."
+                ],
+                answer: 3
+            },
+            {
+                id: 18,
+                question: "Câu 18. Truyền thống yêu nước của dân tộc Việt Nam được thể hiện rõ nhất qua:",
+                options: [
+                    "A. Các cuộc đấu tranh chống ngoại xâm bảo vệ Tổ quốc.",
+                    "B. Việc nhân dân chăm lo phát triển kinh tế, giữ gìn văn hóa.",
+                    "C. Tình yêu quê hương, tôn trọng lịch sử dân tộc.",
+                    "D. Tinh thần đoàn kết, giúp đỡ nhau trong khó khăn."
+                ],
+                answer: 0
+            },
+            {
+                id: 19,
+                question: "Câu 19. Câu ca dao sau nói về truyền thống tốt đẹp nào của dân tộc?\n“Ăn một bát cơm\nNhớ người cày ruộng\nĂn đĩa rau muống\nNhớ người đào ao...”",
+                options: [
+                    "A. Tôn sư trọng đạo",
+                    "B. Nhớ ơn",
+                    "C. Yêu nước",
+                    "D. Hiếu thuận"
+                ],
+                answer: 1
+            },
+            {
+                id: 20,
+                question: "Câu 20. Biểu hiện nào sau đây thể hiện tính cần cù, sáng tạo trong lao động?",
+                options: [
+                    "A. Không ngừng nỗ lực, chủ động tìm tòi và vận dụng những cách làm phù hợp nhằm nâng cao năng suất, chất lượng, hiệu quả lao động.",
+                    "B. Kiên trì thực hiện nhiệm vụ được giao, chủ động tìm cách khắc phục khó khăn để hoàn thành công việc đạt hiệu quả cao.",
+                    "C. Luôn tìm tòi, cải tiến cách làm để tiết kiệm thời gian, công sức nhưng vẫn bảo đảm chất lượng công việc.",
+                    "D. Thực hiện công việc theo đúng thói quen đã có, không cần thay đổi phương pháp ngay cả khi xuất hiện cách làm hiệu quả hơn."
+                ],
+                answer: 0
+            },
+            {
+                id: 21,
+                question: "Câu 21. Trong quá trình thực hiện nhiệm vụ, hành vi nào sau đây thể hiện rõ nhất sự cần cù, sáng tạo trong lao động?",
+                options: [
+                    "A. Chủ động sắp xếp công việc theo thứ tự hợp lý, kiên trì hoàn thành nhiệm vụ dù gặp trở ngại.",
+                    "B. Bền bỉ thực hiện nhiệm vụ, đồng thời chủ động nghiên cứu, cải tiến phương pháp làm việc trên cơ sở phù hợp với điều kiện thực tế để nâng cao hiệu quả.",
+                    "C. Tích cực học hỏi kinh nghiệm, thử nghiệm cách làm mới phù hợp để giải quyết công việc hiệu quả hơn.",
+                    "D. Cố gắng hoàn thành công việc thật nhanh bằng cách bỏ qua một số bước kiểm tra chất lượng để tiết kiệm công sức."
+                ],
+                answer: 1
+            },
+            {
+                id: 22,
+                question: "Câu 22. Vì sao mỗi người cần rèn luyện đức tính cần cù, sáng tạo trong lao động?",
+                options: [
+                    "A. Giúp con người tích lũy kinh nghiệm, nâng cao trình độ và từng bước cải thiện chất lượng, hiệu quả công việc.",
+                    "B. Góp phần nâng cao năng suất lao động, tiết kiệm thời gian, công sức và tạo ra những sản phẩm có giá trị hơn.",
+                    "C. Giúp con người hoàn thành công việc dễ dàng mà không cần đầu tư nhiều thời gian, công sức hoặc trải qua khó khăn.",
+                    "D. Giúp con người phát huy năng lực, nâng cao năng suất và chất lượng lao động, tạo ra giá trị thiết thực cho bản thân, gia đình và xã hội."
+                ],
+                answer: 3
+            },
+            {
+                id: 23,
+                question: "Câu 23. Nhận định nào sau đây giải thích đúng nhất ý nghĩa của sự cần cù, sáng tạo trong lao động đối với sự phát triển của mỗi người và xã hội?",
+                options: [
+                    "A. Cần cù, sáng tạo giúp con người hình thành thói quen làm việc nghiêm túc, chủ động giải quyết khó khăn và hoàn thiện bản thân.",
+                    "B. Cần cù, sáng tạo góp phần thúc đẩy cải tiến kỹ thuật, nâng cao năng suất lao động và tạo động lực phát triển kinh tế, xã hội.",
+                    "C. Cần cù, sáng tạo vừa giúp mỗi người phát triển năng lực, khẳng định giá trị bản thân, vừa góp phần nâng cao hiệu quả lao động và thúc đẩy sự phát triển của xã hội.",
+                    "D. Cần cù, sáng tạo chủ yếu giúp con người đạt được thành tích cá nhân, không ảnh hưởng đáng kể đến sự phát triển chung của cộng đồng."
+                ],
+                answer: 2
+            },
+            {
+                id: 24,
+                question: "Câu 24. Nhân dịp kỷ niệm Ngày thành lập Quân đội nhân dân Việt Nam, lớp 8 tổ chức hoạt động tìm hiểu truyền thống yêu nước và biết ơn những người có công với đất nước. Việc làm nào sau đây phù hợp nhất để học sinh góp phần giữ gìn, phát huy truyền thống dân tộc?",
+                options: [
+                    "A. Tự giác tìm hiểu truyền thống yêu nước, thể hiện lòng biết ơn bằng việc làm phù hợp và vận động bạn bè cùng tham gia các hoạt động thiết thực nhằm lan tỏa những giá trị truyền thống tốt đẹp.",
+                    "B. Tích cực tìm hiểu những tấm gương yêu nước, biết ơn các thế hệ đi trước và chia sẻ kiến thức chính xác với các bạn.",
+                    "C. Chủ động đề xuất, tham gia hoạt động thăm hỏi gia đình có công với cách mạng hoặc chăm sóc di tích lịch sử phù hợp với điều kiện của lớp.",
+                    "D. Chỉ tập trung sưu tầm hình ảnh, khẩu hiệu để trang trí lớp học, không cần tìm hiểu ý nghĩa lịch sử hoặc tham gia hoạt động thực tế."
+                ],
+                answer: 0
+            },
+            {
+                id: 25,
+                question: "Câu 25. Để thể hiện sự cần cù, sáng tạo trong lao động và những công việc hằng ngày, học sinh nên lựa chọn cách làm nào sau đây?",
+                options: [
+                    "A. Chủ động hoàn thành công việc trực nhật được phân công, đồng thời đề xuất cách sắp xếp dụng cụ hợp lý để tiết kiệm thời gian và công sức.",
+                    "B. Kiên trì thực hiện nhiệm vụ được giao, tích cực học hỏi kinh nghiệm và điều chỉnh cách làm khi nhận thấy phương pháp cũ chưa hiệu quả.",
+                    "C. Tự giác, bền bỉ thực hiện nhiệm vụ đến cùng, đồng thời chủ động tìm tòi, cải tiến phương pháp phù hợp để nâng cao hiệu quả công việc.",
+                    "D. Ưu tiên hoàn thành công việc nhanh nhất có thể, kể cả khi phải bỏ qua một số yêu cầu về chất lượng hoặc làm thay phần việc của người khác."
+                ],
+                answer: 2
+            }
+        ];
+
+        // Hàm xáo trộn mảng
+        const shuffleArray = (array) => {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        };
+
+        // Hàm xáo trộn đề (cả câu hỏi và các lựa chọn)
+        const generateShuffledQuestions = (questions) => {
+            return shuffleArray(questions).map(q => {
+                const indexedOptions = q.options.map((opt, idx) => ({
+                    text: opt.replace(/^[A-D]\.\s*/, ''),
+                    isCorrect: idx === q.answer
+                }));
+                const shuffledOptions = shuffleArray(indexedOptions);
+                const labels = ["A", "B", "C", "D"];
+                return {
+                    id: q.id,
+                    question: q.question,
+                    options: shuffledOptions.map((o, idx) => `${labels[idx]}. ${o.text}`),
+                    answer: shuffledOptions.findIndex(o => o.isCorrect)
+                };
+            });
+        };
+
+        const essayQuestions = [
+            {
+                id: 1,
+                title: "Câu 1. Em hãy cho biết dân tộc Việt Nam có những truyền thống nào đáng tự hào?",
+                answer: "Dân tộc Việt Nam có nhiều truyền thống đáng tự hào là: Truyền thống yêu nước, truyền thống hiếu học, truyền thống đoàn kết, truyền thống tương thân tương ái, truyền thống nhân nghĩa, truyền thống tôn sư trọng đạo, truyền thống uống nước nhớ nguồn."
+            },
+            {
+                id: 2,
+                title: "Câu 2. Tình huống: Bạn A thường hoàn thành bài tập đúng thời hạn nhưng chỉ làm theo cách cô giáo hướng dẫn, không tìm hiểu thêm. Khi gặp bài khó, A dễ bỏ cuộc.\nHỏi: Nếu là bạn của A, em sẽ làm gì để giúp A rèn luyện đức tính cần cù, sáng tạo?",
+                answer: "Gợi ý trả lời:\nNếu là bạn của A, em sẽ làm các việc sau để giúp A rèn luyện đức tính cần cù, sáng tạo:\n- Khuyên A kiên trì, chủ động tìm hiểu và không bỏ cuộc trước khó khăn.\n- Hướng dẫn A lập kế hoạch học tập, dành thời gian luyện tập thường xuyên.\n- Khuyến khích A tìm nhiều cách giải quyết vấn đề và vận dụng kiến thức vào thực tế."
+            },
+            {
+                id: 3,
+                title: "Câu 3. Tình huống: Trong một lần về thăm quê, M được ông kể về truyền thống hiếu học, cần cù lao động và tinh thần đoàn kết của người dân địa phương. Tuy nhiên, M nhận thấy một số bạn cùng lứa ít quan tâm đến những truyền thống này, chỉ thích chạy theo các trào lưu trên mạng xã hội. M muốn góp phần giúp các bạn hiểu và trân trọng những giá trị tốt đẹp của dân tộc.\nHỏi: Nếu là M, em sẽ làm gì để góp phần giữ gìn và phát huy truyền thống tốt đẹp của dân tộc?",
+                answer: "Gợi ý trả lời:\n- Tích cực tìm hiểu lịch sử, ý nghĩa và những biểu hiện của truyền thống hiếu học, cần cù lao động, đoàn kết của dân tộc.\n- Thể hiện truyền thống bằng việc làm cụ thể như chăm chỉ học tập, siêng năng lao động, đoàn kết và giúp đỡ mọi người.\n- Giới thiệu những giá trị truyền thống tốt đẹp đến bạn bè, vận động các bạn cùng thực hiện và phê phán những hành vi làm mai một các giá trị ấy."
+            },
+            {
+                id: 4,
+                title: "Câu 4. Học sinh cần làm những việc cụ thể nào để giữ gìn, phát huy truyền thống của dân tộc?",
+                answer: "- Tìm hiểu về truyền thống, phong tục, tập quán dân tộc.\n- Có thái độ tôn trọng, trân quý, giữ gìn và phát huy nghệ thuật truyền thống.\n- Biết ơn những người có công với đất nước.\n- Tham gia các hoạt động đền ơn đáp nghĩa, các sinh hoạt văn hóa dân tộc, dân gian.\n- Phê phán những hành vi, việc làm gây tổn hại đến truyền thống dân tộc."
+            },
+            {
+                id: 5,
+                title: "Câu 5. Sự đa dạng của các dân tộc và các nền văn hóa trên thế giới là gì?",
+                answer: "Sự đa dạng của các dân tộc và các nền văn hóa trên thế giới là: Mỗi dân tộc đều có những nét riêng về tính cách, truyền thống, phong tục, tập quán, ngôn ngữ,... Đó là những vốn quý giá của nhân loại cần được tôn trọng, thừa nhận và phát triển."
+            },
+            {
+                id: 6,
+                title: "Câu 6. Em hãy cho biết ý nghĩa của cần cù, sáng tạo trong lao động của con người là gì?",
+                answer: "Ý nghĩa của cần cù, sáng tạo trong lao động của con người là:\n- Giúp con người hoàn thiện và phát triển phẩm chất, năng lực của mỗi cá nhân để nâng cao hiệu quả lao động, góp phần xây dựng quê hương, đất nước.\n- Tạo ra được nhiều giá trị vật chất, tinh thần góp phần cải thiện và nâng cao đời sống.\n- Được mọi người yêu quý, tôn trọng."
+            }
+        ];
+
+        const App = () => {
+            // Chế độ trộn: 'original' (Gốc) | 'shuffled' (Đã đảo)
+            const [orderMode, setOrderMode] = useState('original');
+            // Chế độ làm bài: 'immediate' (Hiện kết quả ngay từng câu) | 'submit' (Nộp bài mới ra kết quả)
+            const [practiceMode, setPracticeMode] = useState('submit');
+            
+            // Danh sách câu hỏi hiện tại
+            const [questions, setQuestions] = useState(originalMcQuestions);
+            const [answers, setAnswers] = useState({});
+            const [submitted, setSubmitted] = useState(false);
+            const [showEssayAnswers, setShowEssayAnswers] = useState({});
+
+            // Đổi thứ tự câu hỏi (Gốc / Đảo)
+            const handleOrderModeChange = (mode) => {
+                setOrderMode(mode);
+                setAnswers({});
+                setSubmitted(false);
+                if (mode === 'shuffled') {
+                    setQuestions(generateShuffledQuestions(originalMcQuestions));
+                } else {
+                    setQuestions(originalMcQuestions);
+                }
+            };
+
+            // Đổi chế độ làm bài (Từng câu / Nộp bài)
+            const handlePracticeModeChange = (mode) => {
+                setPracticeMode(mode);
+                setAnswers({});
+                setSubmitted(false);
+            };
+
+            const handleSelect = (qId, optionIdx) => {
+                if (submitted && practiceMode === 'submit') return;
+                
+                // Trong chế độ 'immediate', nếu đã chọn câu đó rồi thì giữ nguyên hoặc cho đổi nếu muốn
+                setAnswers(prev => ({ ...prev, [qId]: optionIdx }));
+            };
+
+            const toggleEssayAnswer = (id) => {
+                setShowEssayAnswers(prev => ({ ...prev, [id]: !prev[id] }));
+            };
+
+            const calculateScore = () => {
+                let correct = 0;
+                questions.forEach(q => {
+                    if (answers[q.id] === q.answer) correct++;
+                });
+                return correct;
+            };
+
+            const score = calculateScore();
+
+            return (
+                <div className="max-w-4xl mx-auto p-4 pb-24">
+                    {/* Header */}
+                    <header className="bg-indigo-700 text-white p-6 md:p-8 rounded-2xl shadow-xl mb-6 text-center">
+                        <span className="bg-indigo-500 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Đề CD-GK18</span>
+                        <h1 className="text-2xl md:text-3xl font-black mb-2 tracking-tight">ÔN TẬP GIÁO DỤC CÔNG DÂN 8</h1>
+                        <p className="opacity-90 text-sm md:text-base">Đề cương trắc nghiệm & Tự luận chọn lọc</p>
+                    </header>
+
+                    {/* Thanh Điều Khiển Chế Độ */}
+                    <div className="bg-white rounded-2xl p-4 md:p-6 mb-8 shadow-sm border border-gray-100 flex flex-col md:flex-row gap-6 justify-between items-center">
+                        {/* Lựa chọn Thứ tự đề */}
+                        <div className="w-full md:w-1/2">
+                            <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                                📌 Thứ tự đề thi
+                            </label>
+                            <div className="grid grid-cols-2 gap-2 bg-gray-100 p-1.5 rounded-xl">
+                                <button
+                                    onClick={() => handleOrderModeChange('original')}
+                                    className={`py-2 px-3 text-sm font-semibold rounded-lg transition-all ${
+                                        orderMode === 'original' 
+                                            ? 'bg-white text-indigo-700 shadow-sm' 
+                                            : 'text-gray-600 hover:text-gray-900'
+                                    }`}>
+                                    Giữ Nguyên Đề Gốc
+                                </button>
+                                <button
+                                    onClick={() => handleOrderModeChange('shuffled')}
+                                    className={`py-2 px-3 text-sm font-semibold rounded-lg transition-all ${
+                                        orderMode === 'shuffled' 
+                                            ? 'bg-white text-indigo-700 shadow-sm' 
+                                            : 'text-gray-600 hover:text-gray-900'
+                                    }`}>
+                                    🔀 Đã Đảo Đề
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Lựa chọn Chế độ luyện tập */}
+                        <div className="w-full md:w-1/2">
+                            <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                                🎯 Chế độ luyện tập
+                            </label>
+                            <div className="grid grid-cols-2 gap-2 bg-gray-100 p-1.5 rounded-xl">
+                                <button
+                                    onClick={() => handlePracticeModeChange('immediate')}
+                                    className={`py-2 px-3 text-sm font-semibold rounded-lg transition-all ${
+                                        practiceMode === 'immediate' 
+                                            ? 'bg-white text-indigo-700 shadow-sm' 
+                                            : 'text-gray-600 hover:text-gray-900'
+                                    }`}>
+                                    ⚡ Hiện Kết Quả Ngay
+                                </button>
+                                <button
+                                    onClick={() => handlePracticeModeChange('submit')}
+                                    className={`py-2 px-3 text-sm font-semibold rounded-lg transition-all ${
+                                        practiceMode === 'submit' 
+                                            ? 'bg-white text-indigo-700 shadow-sm' 
+                                            : 'text-gray-600 hover:text-gray-900'
+                                    }`}>
+                                    📝 Làm Hết Mới Nộp Bài
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Result Banner (Chỉ dành cho chế độ Nộp bài) */}
+                    {submitted && practiceMode === 'submit' && (
+                        <div className="bg-white border-2 border-indigo-500 rounded-2xl p-6 mb-8 shadow-xl flex flex-col md:flex-row justify-between items-center gap-4 animate-fade-in">
+                            <div>
+                                <h2 className="text-2xl font-bold text-indigo-800">KẾT QUẢ TRẮC NGHIỆM</h2>
+                                <p className="text-lg text-gray-700 mt-1">
+                                    Số câu đúng: <span className="font-extrabold text-indigo-600">{score}</span> / {questions.length} câu
+                                    ({Math.round((score / questions.length) * 100)}%)
+                                </p>
+                            </div>
+                            <button 
+                                onClick={() => { setAnswers({}); setSubmitted(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                                className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full transition-all shadow-md">
+                                Làm Lại Bài Tập
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Tiến độ ở Chế độ Hiện kết quả ngay */}
+                    {practiceMode === 'immediate' && (
+                        <div className="bg-indigo-50 border border-indigo-200 rounded-2xl p-4 mb-6 flex justify-between items-center">
+                            <span className="font-medium text-indigo-900 text-sm md:text-base">
+                                Đã trả lời: <b>{Object.keys(answers).length}</b> / {questions.length} câu
+                            </span>
+                            <span className="font-bold text-indigo-700 text-sm md:text-base">
+                                Đã đúng: {questions.filter(q => answers[q.id] === q.answer).length} câu
+                            </span>
+                        </div>
+                    )}
+
+                    {/* Section I: Trắc nghiệm */}
+                    <section className="mb-12">
+                        <div className="flex items-center gap-3 mb-6 border-l-8 border-indigo-600 pl-4">
+                            <h2 className="text-2xl font-bold text-gray-800 uppercase">PHẦN I. TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN</h2>
+                        </div>
+                        
+                        <div className="space-y-6">
+                            {questions.map((q, qIndex) => (
+                                <div key={q.id} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
+                                    <p className="font-semibold text-gray-800 mb-4 whitespace-pre-line leading-relaxed">
+                                        <span className="text-indigo-600 font-bold">Câu {qIndex + 1}. </span>
+                                        {q.question.replace(/^Câu \d+\.\s*/, '')}
+                                    </p>
+                                    <div className="space-y-3">
+                                        {q.options.map((opt, idx) => {
+                                            const isSelected = answers[q.id] === idx;
+                                            const isCorrect = q.answer === idx;
+                                            const hasAnsweredThis = answers[q.id] !== undefined;
+
+                                            let btnStyle = "w-full text-left p-4 rounded-xl border transition-all option-hover leading-normal ";
+
+                                            if (practiceMode === 'immediate') {
+                                                if (hasAnsweredThis) {
+                                                    if (isCorrect) {
+                                                        btnStyle += "correct-bg border-green-500 font-medium shadow-sm";
+                                                    } else if (isSelected) {
+                                                        btnStyle += "wrong-bg border-red-500 font-medium";
+                                                    } else {
+                                                        btnStyle += "opacity-40 bg-gray-50 border-gray-200";
+                                                    }
+                                                } else {
+                                                    btnStyle += "bg-gray-50 border-gray-200 text-gray-700";
+                                                }
+                                            } else {
+                                                // practiceMode === 'submit'
+                                                if (submitted) {
+                                                    if (isCorrect) {
+                                                        btnStyle += "correct-bg border-green-500 font-medium shadow-sm";
+                                                    } else if (isSelected) {
+                                                        btnStyle += "wrong-bg border-red-500 font-medium";
+                                                    } else {
+                                                        btnStyle += "opacity-40 bg-gray-50 border-gray-200";
+                                                    }
+                                                } else {
+                                                    btnStyle += isSelected 
+                                                        ? "bg-indigo-600 text-white border-indigo-700 shadow-md font-medium" 
+                                                        : "bg-gray-50 border-gray-200 text-gray-700";
+                                                }
+                                            }
+
+                                            return (
+                                                <button 
+                                                    key={idx} 
+                                                    onClick={() => handleSelect(q.id, idx)} 
+                                                    className={btnStyle}>
+                                                    {opt}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                    
+                                    {/* Giải thích / Phản hồi nhanh ở chế độ 'immediate' */}
+                                    {practiceMode === 'immediate' && answers[q.id] !== undefined && (
+                                        <div className={`mt-3 p-3 rounded-lg text-sm font-semibold flex items-center gap-2 ${
+                                            answers[q.id] === q.answer 
+                                                ? 'bg-green-100 text-green-800 border border-green-300' 
+                                                : 'bg-red-100 text-red-800 border border-red-300'
+                                        }`}>
+                                            {answers[q.id] === q.answer ? (
+                                                <span>✅ Chính xác!</span>
+                                            ) : (
+                                                <span>❌ Sai rồi. Đáp án đúng là {["A", "B", "C", "D"][q.answer]}</span>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* Submit Button (Chỉ dành cho chế độ Nộp bài) */}
+                    {practiceMode === 'submit' && !submitted && (
+                        <div className="sticky bottom-6 flex justify-center z-10 my-8">
+                            <button 
+                                onClick={() => { setSubmitted(true); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                                className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white text-xl font-black py-4 px-12 rounded-full shadow-2xl transform hover:scale-105 transition-all">
+                                NỘP BÀI TRẮC NGHIỆM
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Section II: Tự luận */}
+                    <section className="mt-12">
+<!-- ... existing code -->
